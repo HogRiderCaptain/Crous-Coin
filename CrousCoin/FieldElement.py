@@ -7,8 +7,8 @@ class FieldElement:
         self.num = num
         self.prime = prime
 
-    """def __repr__(self):
-        return 'FieldElement_{}({})'.format(self.prime,self.num)"""
+    def __repr__(self):
+        return 'FieldElement_{}({})'.format(self.prime,self.num)
     
     def __eq__(self,other):
         if other is None:
@@ -44,15 +44,12 @@ class FieldElement:
     def __truediv__(self, other):
         if self.prime != other.prime:
             raise TypeError('Cannot divide two numbers in differents Fields')
-        num = (self.num * other.num**(self.prime-2) % self.prime)
+        num = (self.num * pow(other.num, self.prime - 2, self.prime)) % self.prime
         return FieldElement(num, self.prime)
     
     def __rmul__(self, coefficient):
         num = (self.num * coefficient) % self.prime
         return FieldElement(num, self.prime)
-    
-    def __repr__(self):
-        return '{}'.format(self.num)
 
 """
 #Test __eq__

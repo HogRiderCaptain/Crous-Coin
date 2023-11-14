@@ -1,4 +1,5 @@
 #import matplotlib.pyplot as plt
+from FieldElement import FieldElement
 
 class Point:
  
@@ -61,7 +62,11 @@ class Point:
     def __repr__(self):
         if self.x is None:
             return 'Point(infinity)'
-        return 'Point({},{})_{}_{}'.format(self.x, self.y, self.a, self.b)
+        elif isinstance(self.x, FieldElement):
+            return 'Point({},{})_{}_{} FieldElement({})'.format(
+                self.x.num, self.y.num, self.a.num, self.b.num, self.x.prime)
+        else:
+            return 'Point({},{})_{}_{}'.format(self.x, self.y, self.a, self.b)
         
 """
 #Exo 4       
