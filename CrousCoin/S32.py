@@ -4,8 +4,10 @@ import hashlib
 import hmac
 from random import randint
 import unittest
+from zlib import adler32
 
-P=4294967291
+P=4294956461
+N=715826077
 
 class S32Field(FieldElement):
         
@@ -42,28 +44,24 @@ class S32Point(Point):
 
 
 
-A,B = 0,1
-G = S32Point(2,3)
-
-N=5
+A,B = 0,8
+G = S32Point(1,3)
 #print(N*G)
 
 class Signature:
     def __init__(self, r, s):
         self.r = r
         self.s = s
+        
     def __repr__(self):
         return 'Signature({:x}, {:x})'.format(self.r, self.s)
 
 
-"""    pb hash256 
-a_string = 'my secret'
-e = int(sha256(a_string.encode('utf-8')).hexdigest(), 16)
-e = e.from_bytes(e, 'big')
-a_string = 'my message'
-z = int(sha256(a_string.encode('utf-8')).hexdigest(),16)
-z = z.from_bytes(z, 'big')
-k = 1234567890
+
+e = adler32(b'my secret')
+z = adler32(b'my message')
+
+k = 10
 r = (k*G).x.num
 k_inv = pow(k, N - 2, N)
 s = (z + r * e) * k_inv % N
@@ -72,7 +70,7 @@ print(point)
 print(hex(z))
 print(hex(r))
 print(hex(s))
-#P=eG  P->Public key e->Private key"""
+#P=eG  P->Public key e->Private key
 
 class PrivateKey:
     def __init__(self, secret):
@@ -109,69 +107,3 @@ class PrivateKey:
                 return candidate
             k = hmac.new(k, v + b'\x00', s32).digest()
             v = hmac.new(k, v, s32).digest()
-
-"""gx = 0x79be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798
-gy = 0x483ada7726a3c4655da4fbfc0e1108a8fd17b448a68554199c47d08ffb10d4b8
-p = 2**256 - 2**32 - 977
-print(gy**2 % p == (gx**3 + 7) % p)
-
-from FieldElement import FieldElement
-from Point import Point
-
-gx = 0x79be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798
-gy = 0x483ada7726a3c4655da4fbfc0e1108a8fd17b448a68554199c47d08ffb10d4b8
-p = 2**256 - 2**32 - 977
-n = 0xfffffffffffffffffffffffffffffffebaaedce6af48a03bbfd25e8cd0364141
-x = FieldElement(gx, p)
-y = FieldElement(gy, p)
-seven = FieldElement(7, p)
-zero = FieldElement(0, p)
-G = Point(x, y, zero, seven)
-print(n*G)
-
-class S256Test(unittest.TestCase):
-
-    def test_order(self):
-        point = N * G
-        self.assertIsNone(point.x)
-
-    def test_pubpoint(self):
-        # write a test that tests the public point for the following
-        points = (
-            # secret, x, y
-            (7, 0xcac4f9bc, 0x087264da),
-            (1485, 0x5398afda, 0x50901f55),
-            (2**128, 0x9ec4c0da, 0x501fff82),
-            (2**240 + 2**31, 0x17945116, 0x5e66d053),
-        )
-
-        # iterate over points
-        for secret, x, y in points:
-            # initialize the secp32k1 point (S32Point)
-            point = S32Point(x, y)
-            # check that the secret*G is the same as the point
-            self.assertEqual(secret * G, point)
-
-    def test_verify(self):
-        point = S32Point(
-            0x8744d06c,
-            0x29a0ae34)
-        z = 0x003c0f60
-        r = 0x10d3a395
-        s = 0x1cb423c4
-        self.assertTrue(point.verify(z, Signature(r, s)))
-        z = 0x7a838a3d
-        r = 0xe0529a2c
-        s = 0xce6feab6
-        self.assertTrue(point.verify(z, Signature(r, s)))
-
-class PrivateKeyTest(unittest.TestCase):
-
-    def test_sign(self):
-        pk = PrivateKey(randint(0, N))
-        z = randint(0, 2**32)
-        sig = pk.sign(z)
-        self.assertTrue(pk.point.verify(z, sig))
-        
-if __name__ == '__main__':
-    unittest.main()"""
