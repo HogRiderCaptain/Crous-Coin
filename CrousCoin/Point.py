@@ -67,28 +67,3 @@ class Point:
                 self.x.num, self.y.num, self.a.num, self.b.num, self.x.prime)
         else:
             return 'Point({},{})_{}_{}'.format(self.x, self.y, self.a, self.b)
-        
-"""
-#Exo 4       
-point1 = Point(2,5,5,7)
-point2 = Point(-1,-1,5,7)
-point3 = point1 + point2
-print(point3)
-
-#Exo 6
-point4 = point2.__add__(point2)
-print(point4.__repr__())
-
-#Exo 7
-point5 = Point(1,0,0,-1)
-point5 = point5.__add__(point5)
-print(point5.__repr__())
-
-#Test en deuspi
-print("\nTest None + None")
-point6 = Point(None,None,5,7)
-print(point6.__add__(point6))
-print("\nTest Point1 + None")
-print(point1 + point6)
-print("\nTest None + Point1")
-print(point6 + point1)"""

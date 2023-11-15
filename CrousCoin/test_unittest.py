@@ -63,3 +63,70 @@ class ECCTest(unittest.TestCase):
             
 if __name__ == '__main__':
     unittest.main()
+    
+"""
+---------------------------------<Point>---------------------------------
+
+#Exo 4       
+point1 = Point(2,5,5,7)
+point2 = Point(-1,-1,5,7)
+point3 = point1 + point2
+print(point3)
+
+#Exo 6
+point4 = point2.__add__(point2)
+print(point4.__repr__())
+
+#Exo 7
+point5 = Point(1,0,0,-1)
+point5 = point5.__add__(point5)
+print(point5.__repr__())
+
+#Test en deuspi
+print("\nTest None + None")
+point6 = Point(None,None,5,7)
+print(point6.__add__(point6))
+print("\nTest Point1 + None")
+print(point1 + point6)
+print("\nTest None + Point1")
+print(point6 + point1)
+
+------------------------------<FieldElement>------------------------------
+
+#Test __eq__
+a = FieldElement(7,13)
+b = FieldElement(6,13)
+print(a == b)
+print(a == a)
+
+#Exercice 4:
+a = FieldElement(95,97)
+b = FieldElement(45,97)
+c = FieldElement(31,97)
+
+print(a - b +  c)
+
+a = FieldElement(12,97)
+b = FieldElement(77,97)
+d = FieldElement(0,97)
+e = FieldElement(0,97)
+for i in range(7):
+    d+=a
+for i in range(49):
+    e+=b
+
+print(a - b +  c)
+
+
+def add(i,k,n):
+    d=0
+    for j in range(k):
+        d+=i
+    return d%n
+
+n=19
+print("k = 1 : ",[add(i,1,n) for i in range(n)])
+print("k = 3 : ",[add(i,3,n) for i in range(n)])
+print("k = 7 : ",[add(i,7,n) for i in range(n)])
+print("k = 13 : ",[add(i,13,n) for i in range(n)])
+print("k = 18 : ",[add(i,18,n) for i in range(n)])"""
