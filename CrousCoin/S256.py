@@ -168,5 +168,6 @@ class PrivateKeyTest(unittest.TestCase):
         z = randint(0, 2**256)
         sig = pk.sign(z)
         self.assertTrue(pk.point.verify(z, sig))
+        
 if __name__ == '__main__':
     unittest.main()

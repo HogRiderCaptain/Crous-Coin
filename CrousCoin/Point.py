@@ -10,7 +10,6 @@ class Point:
         self.y = y
         if self.x is None and self.y is None:
             return 
-        print((self.y)**2,(self.x)**3 + self.a * x + self.b)
         if (self.y)**2 != (self.x)**3 + self.a * x + self.b:
             raise ValueError('({}, {}) is not on the curve'.format(x, y))
   

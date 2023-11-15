@@ -5,7 +5,7 @@ import hmac
 from random import randint
 import unittest
 
-P=2**32
+P=4294967291
 
 class S32Field(FieldElement):
         
@@ -42,19 +42,11 @@ class S32Point(Point):
 
 
 
-A,B = 0,7
-gx = 0x16f81798
-gy = (gx**3 + 7)%(1/2)
+A,B = 0,1
+G = S32Point(2,3)
 
-G = S32Point(gx,gy)
-N=1
-inf = Point(None, None, A,B)
-product = G
-count = 1
-while product != inf:
-    product += G
-    count += 1
-print(count)
+N=5
+#print(N*G)
 
 class Signature:
     def __init__(self, r, s):
