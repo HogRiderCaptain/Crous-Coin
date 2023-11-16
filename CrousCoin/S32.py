@@ -4,6 +4,7 @@ from zlib import adler32
 
 P=4294956461
 N=715826077
+A,B = 0,8
 
 class S32Field(FieldElement):
         
@@ -31,29 +32,11 @@ class S32Point(Point):
         coef = coefficient%N  #avec NG = 0
         return super().__rmul__(coef)
 
-    def verify(self, z, sig):
+    def verify(self, message_encode, sig):
         s_inv = pow(sig.s, N-2, N)
-        u = z*s_inv % N
+        u = message_encode*s_inv % N
         v = sig.r*s_inv % N
-        total = u*G+v*self
+        total = u*G + v*self
         return total.x.num == sig.r
 
-
-
-A,B = 0,8
 G = S32Point(1,3)
-#print(N*G)
-
-e = adler32(b'my secret')
-z = adler32(b'my message')
-
-k = 10
-r = (k*G).x.num
-k_inv = pow(k, N - 2, N)
-s = (z + r * e) * k_inv % N
-point = e * G
-print(point)
-print(hex(z))
-print(hex(r))
-print(hex(s))
-#P=eG  P->Public key e->Private key
