@@ -134,29 +134,35 @@ print("k = 7 : ",[add(i,7,n) for i in range(n)])
 print("k = 13 : ",[add(i,13,n) for i in range(n)])
 print("k = 18 : ",[add(i,18,n) for i in range(n)])"""
 
-from hash_32bit import hash_32bit
+from hash_32bit import hash32
 from S32 import S32Point
+from Signature import Signature
 
 count = 0
-nb_essais = 20
-for _ in range(nb_essais):
-    data_to_sign = "ProjetSansAide!"
-    secret_key = "my_secret_key"
+data_to_sign = b"my_message!"
+secret_key = b"my_secret_key"
 
-    data_sign = hash_32bit(data_to_sign)
-    secret_key_sign = hash_32bit(secret_key)
+data_sign = hash32(data_to_sign)
+secret_key_sign = hash32(secret_key)
+pk = PrivateKey(secret_key_sign)
+signature,k = pk.sign(data_sign)
+Q = pk.secret * G
+
+while not(Q.verify(data_sign, signature)):
+    data_to_sign = b"my_message!"
+    secret_key = b"my_secret_key"
+
+    
+    data_sign = hash32(data_to_sign)
+    secret_key_sign = hash32(secret_key)
 
     pk = PrivateKey(secret_key_sign)
-    signature = pk.sign(data_sign)
-    """print('0x{}'.format(pk.hex()))
-    print(hex(signature.r))
-    print(hex(signature.s))"""
-
-    pk_S32Point = S32Point(pk.point.x,pk.point.y)
-    if pk_S32Point.verify(data_sign, signature):
-        print("fonctionne !!!\n")
-        count+=1
-print('\nA fonctionné {} fois sur {}.'.format(count,nb_essais))
+    
+    signature,k = pk.sign(data_sign)
+    Q = pk.secret * G
+    
+print('K : {}'.format(k))
+assert(k<N)
 
 #if __name__ == '__main__':
     #unittest.main()

@@ -1,6 +1,5 @@
 from FieldElement import FieldElement
 from Point import Point
-from zlib import adler32
 
 P=4294956461
 N=715826077
@@ -32,11 +31,12 @@ class S32Point(Point):
         coef = coefficient%N  #avec NG = 0
         return super().__rmul__(coef)
 
-    def verify(self, message_encode, sig):
-        s_inv = pow(sig.s, N-2, N)
-        u = message_encode*s_inv % N
-        v = sig.r*s_inv % N
-        total = u*G + v*self
-        return total.x.num == sig.r
+    def verify(self, z, signature):
+        s_inv = pow(signature.s, N-2, N)
+        u = s_inv * z % N
+        v = s_inv * signature.r.num % N
+        V = u*G + v*self
+        return V.x == signature.r
 
 G = S32Point(1,3)
+#print((N-1)*G)

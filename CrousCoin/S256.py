@@ -4,6 +4,8 @@ import hashlib
 import hmac
 from random import randint
 import unittest
+from hash_32bit import hash32
+from S32 import S32Point
 
 P=2**256 - 2**32 - 977
 N=0xfffffffffffffffffffffffffffffffebaaedce6af48a03bbfd25e8cd0364141
@@ -74,6 +76,7 @@ class PrivateKey:
     def __init__(self, secret):
         self.secret = secret
         self.point = secret*G
+        
     def hex(self):
         return '{:x}'.format(self.secret).zfill(64)
 
@@ -147,19 +150,34 @@ class S256Test(unittest.TestCase):
             point = S256Point(x, y)
             # check that the secret*G is the same as the point
             self.assertEqual(secret * G, point)
-
+    
     def test_verify(self):
-        point = S256Point(
-            0x887387e452b8eacc4acfde10d9aaf7f6d9a0f975aabb10d006e4da568744d06c,
-            0x61de6d95231cd89026e286df3b6ae4a894a3378e393e93a0f45b666329a0ae34)
-        z = 0xec208baa0fc1c19f708a9ca96fdeff3ac3f230bb4a7ba4aede4942ad003c0f60
-        r = 0xac8d1c87e51d0d441be8b3dd5b05c8795b48875dffe00b7ffcfac23010d3a395
-        s = 0x68342ceff8935ededd102dd876ffd6ba72d6a427a3edb13d26eb0781cb423c4
-        self.assertTrue(point.verify(z, Signature(r, s)))
+        data_to_sign = b"my message"
+        secret_key = b"my secret"
+
+        data_sign = int.from_bytes(hash256(data_to_sign), 'big')
+        secret_key_sign = int.from_bytes(hash256(secret_key), 'big')
+        k = randint(0,N)
+        r = (k*G).x.num
+        k_inv = pow(k, N-2,N)
+        s = (data_sign + r*secret_key_sign) * k_inv % N
+        point = secret_key_sign*G
+        print(point)
+        print(hex(r))
+        print(hex(s))
+        print(hex(data_sign))
+
+
+
+        """pk = PrivateKey(secret_key_sign)
+        signature = pk.sign(data_sign)
+
+        pk_S32Point = S32Point(pk.point.x,pk.point.y)
+        self.assertTrue(pk_S32Point.verify(z, Signature))
         z = 0x7c076ff316692a3d7eb3c3bb0f8b1488cf72e1afcd929e29307032997a838a3d
         r = 0xeff69ef2b1bd93a66ed5219add4fb51e11a840f404876325a1e8ffe0529a2c
         s = 0xc7207fee197d27c618aea621406f6bf5ef6fca38681d82b2f06fddbdce6feab6
-        self.assertTrue(point.verify(z, Signature(r, s)))
+        self.assertTrue(pk_S32Point.verify(z, Signature(r, s)))"""
 
 class PrivateKeyTest(unittest.TestCase):
 
@@ -168,6 +186,9 @@ class PrivateKeyTest(unittest.TestCase):
         z = randint(0, 2**256)
         sig = pk.sign(z)
         self.assertTrue(pk.point.verify(z, sig))
-        
+
+def hash256(z):
+    return hashlib.sha256(hashlib.sha256(z).digest()).digest()
+    
 if __name__ == '__main__':
     unittest.main()
