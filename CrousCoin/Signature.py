@@ -4,4 +4,4 @@ class Signature:
         self.s = s
         
     def __repr__(self):
-        return 'Signature({:x}, {:x})'.format(self.r, self.s)
+        return 'Signature : {}'.format(hex(self.s))
