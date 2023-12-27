@@ -5,3 +5,4 @@ def hash256(z):
 
 def hash32(z):
     return int.from_bytes(hash256(z)[:4], 'big')
+
