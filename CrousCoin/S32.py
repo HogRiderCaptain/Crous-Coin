@@ -38,5 +38,5 @@ class S32Point(Point):
         V = u*G + v*self
         return V.x == signature.r
 
-G = S32Point(1,3)
+G = S32Point(1, 3)
 #print((N-1)*G)

@@ -145,20 +145,11 @@ secret_key = b"my_secret_key"
 data_sign = hash32(data_to_sign)
 secret_key_sign = hash32(secret_key)
 pk = PrivateKey(secret_key_sign)
-signature,k = pk.sign(data_sign)
+signature = pk.sign(data_sign)
 Q = pk.secret * G
 
 while not(Q.verify(data_sign, signature)):
-    data_to_sign = b"my_message!"
-    secret_key = b"my_secret_key"
-
-    
-    data_sign = hash32(data_to_sign)
-    secret_key_sign = hash32(secret_key)
-
-    pk = PrivateKey(secret_key_sign)
-    
-    signature,k = pk.sign(data_sign)
+    signature, k = pk.sign(data_sign)
     Q = pk.secret * G
     
 print('K : {}'.format(k))

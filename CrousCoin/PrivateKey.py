@@ -16,4 +16,4 @@ class PrivateKey:
         R = k*G
         k_inv = pow(k,N-2,N)
         s = k_inv * (z + self.secret*R.x.num) % N
-        return Signature(R.x,s),k
+        return Signature(R.x,s)
