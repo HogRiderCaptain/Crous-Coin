@@ -2,6 +2,7 @@ from Personne import Personne
 from PrivateKey import PrivateKey
 from hash_32bit import hash32
 from S32 import G,N
+
 class transaction:
     def __init__(self, input, output, amount, numT):
         self.input = input
