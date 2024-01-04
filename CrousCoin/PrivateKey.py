@@ -1,3 +1,5 @@
+import hashlib
+import hmac
 from random import randint
 from Signature import Signature 
 from S32 import G,N
@@ -16,4 +18,4 @@ class PrivateKey:
         R = k*G
         k_inv = pow(k,N-2,N)
         s = k_inv * (z + self.secret*R.x.num) % N
-        return Signature(R.x,s)
+        return Signature(R.x, s)

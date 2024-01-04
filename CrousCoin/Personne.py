@@ -1,6 +1,5 @@
-from hash_32bit import hash32
+from CrousCoin.hash_32bit import hash32
 from PrivateKey import *
-
 class Personne:
     def __init__(self, name, wallet):
         self.name = name
