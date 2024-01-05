@@ -11,7 +11,16 @@ class Point:
             return 
         if (self.y)**2 != (self.x)**3 + self.a * x + self.b:
             raise ValueError('({}, {}) is not on the curve'.format(x, y))
-  
+         
+    def __repr__(self):
+        if self.x is None:
+            return 'Point(infinity)'
+        elif isinstance(self.x, FieldElement):
+            return 'Point({},{})_{}_{} FieldElement({})'.format(
+                self.x.num, self.y.num, self.a.num, self.b.num, self.x.prime)
+        else:
+            return 'Point({},{})_{}_{}'.format(self.x, self.y, self.a, self.b)
+         
     def __eq__(self, other):
         return self.x == other.x and self.y == other.y \
             and self.a == other.a and self.b == other.b
@@ -56,13 +65,4 @@ class Point:
                 result += current
             current += current
             coef >>= 1
-        return result
-        
-    def __repr__(self):
-        if self.x is None:
-            return 'Point(infinity)'
-        elif isinstance(self.x, FieldElement):
-            return 'Point({},{})_{}_{} FieldElement({})'.format(
-                self.x.num, self.y.num, self.a.num, self.b.num, self.x.prime)
-        else:
-            return 'Point({},{})_{}_{}'.format(self.x, self.y, self.a, self.b)
+        return result       
