@@ -14,6 +14,7 @@ class transaction:
 
     def data_sign(self):
         return hash256(self.input.name.encode() + self.output.name.encode() + str(self.amount).encode() + str(self.numT).encode())
+        
     def __repr__(self):
         return "Tx num {} : {} envoi {}MC à {}.".format( self.numT, self.input.name, self.amount, self.output.name)
 
