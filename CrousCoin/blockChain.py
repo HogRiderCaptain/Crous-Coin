@@ -1,5 +1,4 @@
-from hash_32bit import hash32
-from transaction import transaction
+from hash_256bits import hash256
 
 
 class Block:
@@ -8,7 +7,7 @@ class Block:
         self.prev = "0x0"
         self.transa = transa
         self.pW = self.proofOfWork()
-        self.hash = hex(hash32(str(self.prev).encode() + self.transa_to_encode() + str(self.pW).encode()))
+        self.hash = hex(hash256(str(self.prev).encode() + self.transa_to_encode() + str(self.pW).encode()))
 
     def transa_to_encode(self):
         txt = ""
@@ -23,17 +22,17 @@ class Block:
         block_repr += f"Transactions : \n"
         for i in self.transa:
             block_repr += str(i) + "\n"
-
+        self.transa = []
         block_repr += f"Proof of Work: {self.pW}\n"
         block_repr += f"Hash block: {self.hash}"
-        final_repr = f"+----------------------------+\n{block_repr}\n+----------------------------+"
+        final_repr = f"+----------------------------------------------------------------------------+\n{block_repr}\n+----------------------------------------------------------------------------+"
 
         return final_repr
 
     def proofOfWork(self):
         c = 0
         hash_c = str(self.prev).encode() + self.transa_to_encode() + str(c).encode()
-        while len(str(hex(hash32(hash_c)))) > 9:
+        while hash256(hash_c) > 2**240:
             c += 1
             hash_c = str(self.prev).encode() + self.transa_to_encode() + str(c).encode()
         return c
@@ -43,7 +42,7 @@ class Block:
 
 
     def verify_block(self):
-        return hash32(str(self.prev).encode() + self.transa_to_encode() + str(self.pW).encode()) < 2 ** 28 and self.block_is_full()
+        return hash256(str(self.prev).encode() + self.transa_to_encode() + str(self.pW).encode()) < 2 ** 240 and self.block_is_full()
 
 
 class BlockChain:
@@ -57,7 +56,7 @@ class BlockChain:
         for i in range(self.size):
             objet = self.chain[i]
             if i > 0:
-                blockchain_repr += f"\n{' ' * 13}||| \n{' ' * 13}VVV\n"
+                blockchain_repr += f"\n{' ' * 26}||| \n{' ' * 26}VVV\n"
             blockchain_repr += str(objet)
         return blockchain_repr
 
