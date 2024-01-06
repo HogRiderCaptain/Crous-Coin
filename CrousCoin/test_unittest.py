@@ -3,7 +3,7 @@ from Point import Point
 from FieldElement import FieldElement
 import unittest
 from zlib import adler32
-from S32 import G,N
+from S256 import G,N
 from PrivateKey import PrivateKey
 from random import randint
 
@@ -134,7 +134,7 @@ print("k = 7 : ",[add(i,7,n) for i in range(n)])
 print("k = 13 : ",[add(i,13,n) for i in range(n)])
 print("k = 18 : ",[add(i,18,n) for i in range(n)])"""
 
-from hash_32bit import hash32
+"""from hash_32bit import hash32
 from S32 import S32Point
 from Signature import Signature
 
@@ -156,4 +156,4 @@ print('K : {}'.format(k))
 assert(k<N)
 
 #if __name__ == '__main__':
-    #unittest.main()
+    #unittest.main()"""

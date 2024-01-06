@@ -28,6 +28,6 @@ class Mineur:
             self.wallet += 10
             print("Mineur " + self.name + " a été le plus performant, il remporte 10MC")
         else:
-            print("Mineur " + self.name + " a trop lent")
+            print("Mineur " + self.name + " a été trop lent")
     
     
