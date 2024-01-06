@@ -2,13 +2,20 @@ from hash_256bits import hash256
 
 
 class Block:
-
-    def __init__(self, transa):
+    def init(self, transa):
         self.prev = "0x0"
         self.transa = transa
-        self.pW = self.proofOfWork()
-        self.hash = hex(hash256(str(self.prev).encode() + self.transa_to_encode() + str(self.pW).encode()))
+        self.pW = 0
+        self.hash = self.get_hash()
 
+    def get_hash(self):
+        return hex(hash32(str(self.prev).encode()+self.transa_to_encode() + str(self.pW).encode()))
+        
+    def proofOfWork(self):
+        while not self.verify_block():
+            self.pW += 1
+        return self.pW
+        
     def transa_to_encode(self):
         txt = ""
         for i in self.transa:
@@ -46,7 +53,6 @@ class Block:
 
 
 class BlockChain:
-
     def __init__(self, block):
         self.size = 1
         self.chain = [block]
@@ -61,7 +67,10 @@ class BlockChain:
         return blockchain_repr
 
     def add(self, block):
-        if block.block_is_full():
+        if self.size == 0 and block.block_is_full():
+            self.chain.append(block)
+            self.size += 1
+        elif block.block_is_full():
             block.prev = self.chain[-1].hash
             block.pW = block.proofOfWork()
             self.chain.append(block)
