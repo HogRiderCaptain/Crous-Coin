@@ -11,12 +11,12 @@ class S32Field(FieldElement):
         super().__init__(num,prime=P)
         
     def __repr__(self):
-        return '{:x}'.format(self.num).zfill(8)
+        return '{:x}'.format(self.num).zfill(8) 
 
 
 class S32Point(Point):
     def __init__(self, x, y, a=None, b=None):
-        a, b = S32Field(A), S32Field(B)
+        a,b=S32Field(A),S32Field(B)
         if type(x) == int:
             super().__init__(x=S32Field(x), y=S32Field(y), a=a, b=b)
         else:
@@ -28,7 +28,7 @@ class S32Point(Point):
         return '32Point({},{})_{}_{}'.format(self.x, self.y, A, B)
 
     def __rmul__(self, coefficient):
-        coef = coefficient%N  #avec NG = 0
+        coef = coefficient%N          #avec NG = 0
         return super().__rmul__(coef)
 
     def verify(self, z, signature):
