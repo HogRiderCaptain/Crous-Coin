@@ -6,22 +6,27 @@ from S256 import G, N
 class PrivateKey:
     
     def __init__(self, secret):
+        """Initialisation de la class avec la clé secrète. On décide alors de stocket cette clé secrète 
+        ainsi que le produit de cette clé et du point générateur."""
         self.secret = secret
         self.point = secret*G
         
     def hex(self):
-        return '{:x}'.format(self.secret).zfill(4)
+        """Fonction permmetant le retour de l'hexadécimal de la clé secrète d'un l'objet PrivateKey."""
+        return '{:x}'.format(self.secret).zfill(64)
 
     def sign(self, z):
-        k = self.deterministic_k(z)
-        R = k*G
-        k_inv = pow(k,N-2,N)
-        s = k_inv * (z + self.secret*R.x.num) % N
-        if s > N / 2:
-            s = N - s
-        return Signature(R.x, s)
+        """Fonction permettant de signer un message encode z avec l'objet PrivateKey. """
+        k = self.deterministic_k(z)                  # appel de la fonction codée juste en-dessous afin de remplacer un randint(0,t) pour un random plus random
+        R = k*G                                      # produit de ce k random avec le point générateur G
+        k_inv = pow(k,N-2,N)                         # calcul de l'inverse de K avec tips des Corps
+        s = k_inv * (z + self.secret*R.x.num) % N    # signature
+        if s > N / 2:                                
+            s = N - s                                # réduction de la signature si elle est supérieur à la moitié de s
+        return Signature(R.x, s)                     # retour de l'objet Signature
 
     def deterministic_k(self, z):
+        """Fonction retournant in nombre random selon un message_encodé."""
         k = b'\x00' * 32
         v = b'\x01' * 32
         if z > N:
