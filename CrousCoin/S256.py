@@ -45,7 +45,7 @@ class S256Point(Point):
     def verify(self, z, signature):
         """Fonction permettant dfe vérifier la signature. Elle prend donc en paramètre la signature ainsi que le
         message encodé. Ici il suffit de réinverser la signature obtenu et de réappliquer une série d'opération
-        pour retomber sur le produit de la signature et le point générateur G."""
+        pour retomber sur le produit d'un nombre random et le point générateur G."""
         s_inv = pow(signature.s, N-2, N)
         u = s_inv * z % N
         v = s_inv * signature.r.num % N
