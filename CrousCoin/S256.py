@@ -30,7 +30,7 @@ class S256Point(Point):
             
     def __repr__(self):
         """Fonction overwrite pour remplacer l'affichage de l'objet S256Point en affichant l'hexadécimal
-        de l'objet Point. Si celui si est un point null(ou infini), il bénéficie d'una affichage spéciale."""
+        de l'objet Point. Si celui si est un point null (ou infini), il bénéficie d'una affichage spéciale."""
         if self.x is None:
             return '256Point(infinity)'
         return '256Point({},{})_{}_{}'.format(self.x, self.y, A, B)
