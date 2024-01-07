@@ -22,7 +22,8 @@ class Mineur:
         return self.name == other.name and self.wallet == other.wallet
     
     def __ne__(self,other):
-        """Fonction overwrite pour tester l'inégalité entre deux mineurs (même nom et même porte-feuille)."""
+        """Fonction overwrite pour tester l'inégalité entre deux mineurs (vérifiant qu'ils ont le même nom et 
+        le même porte-feuille)."""
         return not(self.__eq__(other))
     
     def create_block(self, transa, bc):
