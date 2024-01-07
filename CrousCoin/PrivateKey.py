@@ -6,7 +6,7 @@ from S256 import G, N
 class PrivateKey:
     
     def __init__(self, secret):
-        """Initialisation de la class avec la clé secrète. On décide alors de stocket cette clé secrète 
+        """Initialisation de la class avec la clé secrète. On décide alors de stocker cette clé secrète 
         ainsi que le produit de cette clé et du point générateur."""
         self.secret = secret
         self.point = secret*G
