@@ -77,14 +77,12 @@ class BlockChain:
 
     def add(self, block):
         """Fonction permettant d'ajouter un bloc passé en paramètre à une chaine."""
-        if self.size == 0 and block.block_is_full():                # vérifie que le bloc est complet (contient 5 transactions)
+        if block.block_is_full():
+            if self.size != 0:                                      # vérifie que le bloc est complet (contient 5 transactions)
+                block.prev = self.chain[-1].hash                    # le prev du bloc est modifié selon le bloc qui le précède
+                block.pW = block.proofOfWork()
             self.chain.append(block)
-            self.size += 1
-        elif self.size != 0 and block.block_is_full():              # vérifie que le bloc est complet (contient 5 transactions) + si la taille est diff de 0 alors 
-            block.prev = self.chain[-1].hash                        # le prev du bloc est modifié selon le bloc qui le précède
-            block.pW = block.proofOfWork()
-            self.chain.append(block)
-            self.size += 1
+            self.size += 1                                          # vérifie que le bloc est complet (contient 5 transactions) + si la taille est diff de 0 alors     
         else:
             print("Pour créer un bloc il nous faut 5 transactions") # Ce print n'est jamais affiché car une vérification tiers et toujours effectué.
                                                                     # Cependant nous laissons ceci pour des tests unitaires
