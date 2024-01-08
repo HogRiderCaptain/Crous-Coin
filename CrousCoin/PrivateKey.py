@@ -12,7 +12,7 @@ class PrivateKey:
         self.point = secret*G
     
     def __eq__(self,other):
-        """Fonction overwrite pour tester l'égalité entre deux PrivateKey (même secret, et même points)."""
+        """Fonction overwrite pour tester l'égalité entre deux PrivateKey (même secret et même points)."""
         return self.secret == other.secret and self.point == other.point
     
     def __ne__(self,other):
