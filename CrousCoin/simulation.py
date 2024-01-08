@@ -1,31 +1,32 @@
+#///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////#
+#//////////////////////////////////////// Imports des Class + fonctions ////////////////////////////////////////////////////#
+#///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////#
 from transaction import transaction
 from Personne import Personne
 from blockChain import *
 from random import choice, randint
 from Mineurs import Mineur
 
+#///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////#
+#////////////////////////////////////////// Déclaration des Variables///////////////////////////////////////////////////////#
+#///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////#
 Brand = Personne("Brand", 100, "brand123")
 Sergio = Personne("Sergio", 100, "laroja34")
 Youss = Personne("Mugsy99", 100, "andorrayehaw")
 personne = Personne("Levy", 100, "idk4000")
 Ali = Personne("Goat", 100, "goatultime.")
-
-
-#transactions = [[0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0]]
-n = 0
 goats = [Brand, Sergio, Youss, personne, Ali]
-
-mineurs = [Mineur("Rtx4080", 0), Mineur("Rtx4090", 0), Mineur("Rtx4060ti", 0), Mineur("Rtx4070", 0), Mineur("Gtx1650", 0)]
-
-
+mineurs = [Mineur("Rtx4080",Brand),Mineur("Rtx4060",Brand), Mineur("Rtx4090",Sergio), Mineur("Rtx4060ti", Youss), Mineur("Rtx4070", personne), Mineur("Gtx1650", Ali)]
+n = 0
 numT = 0
+reward = 50
 transactions = []
 bc = BlockChain()
-
-
-reward = 50
+#///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////#
+#//////////////////////////////////////////// Fonctions Simulations/////////////////////////////////////////////////////////#
+#///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////#   
 def print_resultats(fastest):
-    for mineur in mineurs:
+    for mineur in mineurs:                  
         mineur.get_rewards(fastest, reward)
 
 def minage(bloc):
@@ -40,35 +41,29 @@ def minage(bloc):
     print_resultats(mineurs[liste_tps.index(min(liste_tps))])
     print("---------------------------------------------------")
     print("")
-
+      
     return bloc_mine
-
-for i in range(20):
+#///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////#
+#//////////////////////////////////////////////  Simulations ///////////////////////////////////////////////////////////////#
+#///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////#
+for i in range(20):                                                     # boucle pour obtenir 20 bloc et donc 100 transactions
     if i % 10 == 0 and i!=0:
-        reward = reward/2 #halving a chaque 10 blocs minés
-    while len(transactions) < 5:
-        input = choice(goats)
-        output = choice(goats)
-        while output == input:
-            output = choice(goats)
-        amount = randint(0, input.wallet)
-        transactions.append(transaction(input, output, amount, numT))
+        reward = reward/2                                               # halving a chaque 10 blocs minés (division de moitié de la récompense du mineurs)
+    while len(transactions) < 5:                                        # boucles permettant d'avoir 5 transactions valides par bloc
+        input = choice(goats)                                           # choix random d'une personne qui sera expéditeur du MC
+        output = choice(goats)                                          # choix random d'une personne qui sera expéditeur du MC
+        while output == input:                                          # Boucle pour éviter d'avoir la même personne en tant qu'input et output
+            output = choice(goats)  
+        amount = randint(1, input.wallet)                               # valeur à échangé randomisée entre 0 exclu et l'entiereté de son porte feuille inclus
+        transactions.append(transaction(input, output, amount, numT))   # tentatives de transactions
         numT += 1
-
     bloc = Block(transactions)
     bc.add(minage(bloc))
-
     transactions = []
-
+#///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////#
+#//////////////////////////////////////////////  Affichage /////////////////////////////////////////////////////////////////#
+#///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////#
 print(bc)
-
+print(bc.chain[0].transa)
 for _ in goats:
     print(_)
-for _ in mineurs:
-    print(_, ": ", _.wallet)
-
-print(bc.chain[0].transa)
-
-
-
-
