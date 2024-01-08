@@ -5,25 +5,24 @@ from random import randint
 
 class Mineur:
     
-    def __init__(self, name, wallet):
-        """Initialisation de la class avec le nom du mineur ainsi que le porte-feuille de celui-ci."""
+    def __init__(self, name, proprio):
+        """Initialisation de la class avec le nom du mineur ainsi que le propriétaire de celui-ci."""
         self.name = name
-        self.wallet = 0
+        self.proprio = proprio
     
     def __repr__(self):
         """Fonction overwrite pour remplacer l'affichage de l'objet mineur en affichant simplement son nom."""
         return self.name
     
     def __eq__(self,other):
-        """Fonction overwrite pour tester l'égalité entre deux mineurs (même nom et même porte-feuille). 
+        """Fonction overwrite pour tester l'égalité entre deux mineurs (même nom et même propriétaire). 
         Nous partons du principe que deux mineurs ne doivent pas avoir le même nom."""
         if other is None:
             return False
-        return self.name == other.name and self.wallet == other.wallet
+        return self.name == other.name and self.proprio == other.proprio
     
     def __ne__(self,other):
-        """Fonction overwrite pour tester l'inégalité entre deux mineurs (vérifiant qu'ils ont le même nom et 
-        le même porte-feuille)."""
+        """Fonction overwrite pour tester l'inégalité entre deux mineurs."""
         return not(self.__eq__(other))
     
     def create_block(self, transa, bc):
@@ -40,12 +39,12 @@ class Mineur:
 
     def get_rewards(self, fastest, reward):
         """Fonction qui gère les récompenses des mineurs. Les paramètres sont le mineur le plus rapide, et la 
-        récompenses à attribuer."""
-        if self == fastest:                                                                        # test pour savoir si le mineur question est celui qui a été le plus rapide
-            self.wallet += reward
-            print("Mineur " + self.name + " a été le plus performant, il remporte "+str(reward))   # affichage si le mineur question est celui qui a été le plus rapide
+        récompenses à attribuer au propriétaire du mineur en question."""
+        if self == fastest:                                                                                                 # test pour savoir si le mineur question est celui qui a été le plus rapide
+            self.proprio.modifyMC(reward)                                                                                   # affichage si le mineur question est celui qui a été le plus rapide
+            print("Mineur " + self.name + " a été le plus performant, "+ self.proprio.name +" remporte "+str(reward)+"MC")   
         else:
-            print("Mineur " + self.name + " a été trop lent")                                      # affichage si le mineur question n'est pas celui qui a été le plus rapide
+            print("Mineur " + self.name + " a été trop lent")                                                               # affichage si le mineur question n'est pas celui qui a été le plus rapide
 
     def minage_bloc(self, block, bc):
         """Fonction qui gère le minage appelée par la fonction create_block. Elle incrémente le bloc en conséquent de
