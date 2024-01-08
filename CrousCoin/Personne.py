@@ -20,7 +20,7 @@ class Personne:
         """Fonction overwrite pour tester l'égalité entre deux personnes (même nom, même 
         porte-feuille et les mêmes clé primaire/privés). Nous partons du principe que deux mineurs 
         ne doivent pas avoir le même nom."""
-        return self.name == other.name and self.wallet == other.wallet and self.sk == other.sk and self.pk == other.pk
+        return self.name == other.name and self.wallet == other.wallet and self.pk == other.pk and self.pk == other.pk
     
     def __ne__(self,other):
         """Fonction overwrite pour tester l'inégalité entre deux personnes."""
