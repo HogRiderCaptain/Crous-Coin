@@ -14,7 +14,7 @@ class Personne:
     def __repr__(self):
         """Fonction overwrite pour remplacer l'affichage de l'objet Personne en affichant 
         simplement son nom et le contenu de son porte-feuille."""
-        return "{} possède {}MC".format(self.name, self.wallet)
+        return "{} possède {}MC".format(self.name, round(self.wallet,2))
 
     def __eq__(self,other):
         """Fonction overwrite pour tester l'égalité entre deux personnes (même nom, même 

@@ -4,7 +4,7 @@
 from transaction import transaction
 from Personne import Personne
 from blockChain import *
-from random import choice, randint
+from random import choice, randint,uniform
 from Mineurs import Mineur
 #///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////#
 #////////////////////////////////////////// Déclaration des Variables///////////////////////////////////////////////////////#
@@ -53,16 +53,19 @@ for i in range(20):                                                     # boucle
         output = choice(goats)                                          # choix random d'une personne qui sera expéditeur du MC
         while output == input:                                          # Boucle pour éviter d'avoir la même personne en tant qu'input et output
             output = choice(goats)  
-        amount = randint(1, input.wallet)                               # valeur à échangé randomisée entre 0 exclu et l'entiereté de son porte feuille inclus
+        amount = round(uniform(0.1, input.wallet),2)                            # valeur à échangé randomisée entre 0 exclu et l'entiereté de son porte feuille inclus
         transactions.append(transaction(input, output, amount, numT))   # tentatives de transactions
         numT += 1
     bloc = Block(transactions)
+    for _ in mineurs:
+        print("Mineur "+_.name+" travaille dur ...")
     bc.add(minage(bloc))
     transactions = []
 #///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////#
 #//////////////////////////////////////////////  Affichage /////////////////////////////////////////////////////////////////#
 #///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////#
-print(bc)
-print(bc.chain[0].transa)
+print(bc+"\n")
+#print(bc.chain[0].transa) 
 for _ in goats:
-    print(_)
+    print(_)    
+#-----------------------------------<environ 1min voir un peu plus pour générer un bloc>------------------------------------#
