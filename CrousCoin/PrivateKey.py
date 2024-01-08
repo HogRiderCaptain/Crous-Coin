@@ -10,7 +10,15 @@ class PrivateKey:
         ainsi que le produit de cette clé et du point générateur."""
         self.secret = secret
         self.point = secret*G
-        
+    
+    def __eq__(self,other):
+        """Fonction overwrite pour tester l'égalité entre deux PrivateKey (même secret, et même points)."""
+        return self.secret == other.secret and self.point == other.point
+    
+    def __ne__(self,other):
+        """Fonction overwrite pour tester l'inégalité entre deux PrivateKey."""
+        return not(self == other)  
+       
     def hex(self):
         """Fonction permmetant le retour de l'hexadécimal de la clé secrète d'un l'objet PrivateKey."""
         return '{:x}'.format(self.secret).zfill(64)
