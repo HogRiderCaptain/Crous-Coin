@@ -1,2 +1,2 @@
 # Crous-Coin
-Tah les fou qui bossent à 5h du sbah
+Projet semestre 1, MIDL année 2023-2024
