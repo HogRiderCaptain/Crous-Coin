@@ -76,11 +76,11 @@ pip install hashlib ecdsa
 
 1. Clone this repository:
     ```bash
-    git clone https://github.com/your-username/blockchain-simulation.git
+    git clone https://github.com/HogRiderCaptain/Crous-Coin.git
     ```
 2. Navigate to the project directory:
     ```bash
-    cd blockchain-simulation
+    cd Crous-Coin
     ```
 3. Run the main simulation script:
     ```bash
