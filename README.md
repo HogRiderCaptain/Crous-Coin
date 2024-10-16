@@ -7,7 +7,7 @@ This project simulates a blockchain environment in Python. The simulation includ
 
 This project, *Mid£Coin*, was developed by Ali, Brandon, Sergio, and Youssef in December 2023. It explores the principles of blockchain and cryptocurrency through practical implementation in Python. The project combines cryptographic techniques, such as elliptical curve cryptography and hashing, to ensure secure transactions.
 
-The full report can be found [here](MC_officiel (1).pdf).
+The full report can be found [here](MC_officiel.pdf).
 
 ## Mining Process Visualization
 
